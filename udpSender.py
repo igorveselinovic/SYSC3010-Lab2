@@ -4,18 +4,21 @@ import socket, sys, time
 
 host = sys.argv[1]
 textport = sys.argv[2]
+n = int(sys.argv[3])
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-port = int(textport)
-server_address = (host, port)
 
-while 1:
-    print ("Enter data to transmit: ENTER to quit")
-    data = sys.stdin.readline().strip()
-    if not len(data):
-        break
-#    s.sendall(data.encode('utf-8'))
+# passing 0 as the port will tell Python to pick any available port
+s.bind(("localhost", 0))
+port = s.getsockname()[-1]
+
+server_port = int(textport)
+server_address = (host, server_port)
+
+for i in range(n):
+
+    data = "Message" + str(i)
     s.sendto(data.encode('utf-8'), server_address)
-
-s.shutdown(1)
-
+    print ("Waiting to receive on port %d : press Ctrl-C or Ctrl-Break to stop " % port)
+    buf, address = s.recvfrom(port)
+    print ("Received %s bytes from %s %s: " % (len(buf), address, buf ))
