@@ -4,6 +4,7 @@ import java.net.*;
 public class UDPReceiver {
 
 	private final static int PACKETSIZE = 100 ;
+	private final static String PREFIX = "ACK: " ;
 
 	public static void main( String args[] )
 	{
@@ -24,10 +25,14 @@ public class UDPReceiver {
 			for( ;; )
 			{
 				System.out.println( "Receiving on port " + port ) ;
-				DatagramPacket packet = new DatagramPacket( new byte[PACKETSIZE], PACKETSIZE ) ;
-				socket.receive( packet ) ;
+				DatagramPacket receivePacket = new DatagramPacket( new byte[PACKETSIZE], PACKETSIZE ) ;
+				socket.receive( receivePacket ) ;
+				String message = new String(receivePacket.getData()).trim() ;
+				System.out.println( receivePacket.getAddress() + " " + receivePacket.getPort() + ": " + message ) ;
 
-				System.out.println( packet.getAddress() + " " + packet.getPort() + ": " + new String(packet.getData()).trim() ) ;
+				byte[] sendData = (PREFIX + message).getBytes() ;
+				DatagramPacket sendPacket = new DatagramPacket( sendData, sendData.length, receivePacket.getAddress(), receivePacket.getPort() ) ;
+				socket.send( sendPacket ) ;
 			}
 		}
 		catch( Exception e )
