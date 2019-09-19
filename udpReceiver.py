@@ -18,4 +18,7 @@ while True:
     print ("Waiting to receive on port %d : press Ctrl-C or Ctrl-Break to stop " % port)
     buf, address = s.recvfrom(BUFFER_SIZE)
     print ("Received %s bytes from %s %s: " % (len(buf), address, buf))
-    s.sendto(PREFIX + buf, address)
+    data = PREFIX + buf
+    print ("Sending $s\n", (data))
+    s.sendto(data, address)
+    print()

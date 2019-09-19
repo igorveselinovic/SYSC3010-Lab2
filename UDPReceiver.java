@@ -32,6 +32,7 @@ public class UDPReceiver {
 
 				byte[] sendData = (PREFIX + message).getBytes() ;
 				DatagramPacket sendPacket = new DatagramPacket( sendData, sendData.length, receivePacket.getAddress(), receivePacket.getPort() ) ;
+				System.out.println("Sending " + new String(sendData) + "\n") ;
 				socket.send( sendPacket ) ;
 			}
 		}

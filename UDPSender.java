@@ -30,8 +30,9 @@ public class UDPSender {
 				socket.send( sendPacket ) ;
 
 				DatagramPacket receivePacket = new DatagramPacket( new byte[PACKETSIZE], PACKETSIZE) ;
+				System.out.println( "Receiving on port " + port ) ;
 				socket.receive( receivePacket ) ;
-				System.out.println( receivePacket.getAddress() + " " + receivePacket.getPort() + ": " + new String(receivePacket.getData()).trim() ) ;
+				System.out.println( receivePacket.getAddress() + " " + receivePacket.getPort() + ": " + new String(receivePacket.getData()).trim() + "\n" ) ;
 			}
 			System.out.println ("Closing down");
 		}
