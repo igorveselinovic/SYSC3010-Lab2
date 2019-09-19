@@ -2,6 +2,8 @@
 
 import socket, sys, time
 
+BUFFER_SIZE = 100
+
 host = sys.argv[1]
 textport = sys.argv[2]
 n = int(sys.argv[3])
@@ -20,5 +22,5 @@ for i in range(n):
     data = "Message" + str(i)
     s.sendto(data.encode('utf-8'), server_address)
     print ("Waiting to receive on port %d : press Ctrl-C or Ctrl-Break to stop " % port)
-    buf, address = s.recvfrom(port)
+    buf, address = s.recvfrom(BUFFER_SIZE)
     print ("Received %s bytes from %s %s: " % (len(buf), address, buf ))
